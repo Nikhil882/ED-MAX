@@ -1,3 +1,6 @@
+import 'package:edmax/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:toast/toast.dart';
 import 'homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,12 +17,17 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  final FirebaseAuthService _auth = FirebaseAuthService();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
+
+    ToastContext().init(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -90,6 +98,7 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
+                              controller: _emailController,
                               decoration: InputDecoration(
                                 hintText: 'Email ID',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
@@ -108,6 +117,7 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
+                              controller: _passwordController,
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
@@ -140,7 +150,7 @@ class _LoginState extends State<Login> {
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                              onPressed: () => Get.to(const HomeScreen()),
+                              onPressed: _signIn,
                               child: const Text("Login"),
                           ),
                           // GestureDetector(
@@ -172,5 +182,20 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  void _signIn() async{
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if(user != null ){
+      Toast.show("Login Successful", duration: Toast.lengthShort, gravity: Toast.bottom);
+      Get.offAndToNamed("/");
+    }
+    else{
+      Toast.show("Please enter details correctly", duration: Toast.lengthShort, gravity: Toast.bottom);
+    }
   }
 }

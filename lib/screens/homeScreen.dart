@@ -10,7 +10,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        title: const Text('xgxh'),
+        title: const Text("ED-MAX"),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: const [
+            DrawerHeader(child: Text("ED-MAX")),
+          ],
+        )
       ),
       body: Column(
         children: [

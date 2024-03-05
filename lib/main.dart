@@ -1,3 +1,4 @@
+import 'package:edmax/screens/homeScreen.dart';
 import 'package:get/get.dart';
 
 import 'screens/login.dart';
@@ -24,10 +25,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
+      initialRoute: "/login",
+      getPages: [
+        GetPage(name: "/login", page: ()=>const Login()),
+        GetPage(name: "/", page: ()=> const HomeScreen()),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'edmax',
-      home: Login(),
     );
   }
 }
