@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698941466618",
+    "project_id": "ed-max-f2a03",
+    "storage_bucket": "ed-max-f2a03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698941466618:android:b7cca72e4d57b8fb926643",
+        "android_client_info": {
+          "package_name": "com.example.edmax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2pz69RS1oAjABrKRIOostdgiRodM3m4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
