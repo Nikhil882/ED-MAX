@@ -38,7 +38,7 @@ class _OTPScreenState extends State<OTPScreen> {
             child: TextFieldInput(
               textInputType: TextInputType.emailAddress,
               textEditingController: _email,
-              hintText: 'EMAIL',
+              // hintText: 'EMAIL',
             ),
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           ),

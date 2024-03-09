@@ -1,7 +1,4 @@
-import 'package:edmax/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:toast/toast.dart';
-import 'homeScreen.dart';
+import 'package:edmax/screens/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +6,7 @@ import 'package:get/get.dart';
 import 'ot.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -17,37 +14,33 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final FirebaseAuthService _auth = FirebaseAuthService();
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
-
-    ToastContext().init(context);
-
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFB0CFDF),
-              Color(0xFFB0CFDF),
-              Color(0xFF39A5EF),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        color: Colors.black87,
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [
+        //       Color(0xFFB0CFDF),
+        //       Color(0xFFB0CFDF),
+        //       Color(0xFF39A5EF),
+        //     ],
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //   ),
+        // ),
         child: Column(
           children: [
             Expanded(
               // Added Expanded widget
               child: Stack(
                 children: [
-                  Image.asset('assets/Cloud.png'),
+                  // Image.asset('assets/Cloud.png'),
                   Container(
                     margin: EdgeInsets.fromLTRB(50, 200, 50, 0),
                     height: 500,
@@ -98,7 +91,6 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
-                              controller: _emailController,
                               decoration: InputDecoration(
                                 hintText: 'Email ID',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
@@ -117,7 +109,6 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
-                              controller: _passwordController,
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
@@ -148,28 +139,27 @@ class _LoginState extends State<Login> {
                               obscureText: !_isPasswordVisible,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                              onPressed: _signIn,
-                              child: const Text("Login"),
+                          SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(()=> const HomeScreen());
+                            },
+                            child: Container(
+
+                              width: 140,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    80),
+                                color: Colors.black,
+                                // Adjust the radius as needed
+                                image: DecorationImage(
+                                  image: AssetImage('assets/button.png'),
+                                  fit: BoxFit.cover, // or BoxFit.cover
+                                ),
+                              ),
+                            ),
                           ),
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     Get.to(()=> const HomeScreen());
-                          //   },
-                          //   child: Container(
-                          //     width: 150,
-                          //     height: 100,
-                          //     decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(
-                          //           300), // Adjust the radius as needed
-                          //       image: DecorationImage(
-                          //         image: AssetImage('assets/button.png'),
-                          //         fit: BoxFit.contain, // or BoxFit.cover
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -182,20 +172,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  void _signIn() async{
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
-
-    if(user != null ){
-      Toast.show("Login Successful", duration: Toast.lengthShort, gravity: Toast.bottom);
-      Get.offAndToNamed("/");
-    }
-    else{
-      Toast.show("Please enter details correctly", duration: Toast.lengthShort, gravity: Toast.bottom);
-    }
   }
 }
