@@ -1,3 +1,4 @@
+import 'side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,15 +13,9 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("ED-MAX"),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            DrawerHeader(child: Text("ED-MAX")),
-          ],
-        )
-      ),
+      drawer: const SideMenu(),
       body: Column(
         children: [
           const Text('ffxh'),
