@@ -4,32 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Import carousel_slider
 import 'package:edmax/screens/profile.dart';
+import 'package:get/get.dart';
+import 'bottom_nav.dart';
 import 'login.dart';
 import '../utils/colors.dart';
+import '../constants/strings.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final items = const [
-    Icon(Icons.people, size: 30),
-    Icon(Icons.chat, size: 30),
-    Icon(Icons.home, size: 30),
-    Icon(Icons.assignment, size: 30),
-    Icon(Icons.assignment_turned_in, size: 30),
-  ];
-  int index = 2; // Default index set to Home
-
-  // Add images for the carousel
-  final List<String> carouselImages = [
-    'assets/Cloud.png',
-    'assets/button.png',
-    'image3.jpg',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -82,19 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Bottom navigation and main content
           Expanded(
             child: Scaffold(
-              bottomNavigationBar: CurvedNavigationBar(
-                items: items,
-                index: index,
-                onTap: (selectedIndex) {
-                  setState(() {
-                    index = selectedIndex;
-                  });
-                },
-                height: 70,
-                color: Colors.white,
-                backgroundColor: backgroundColor,
-                animationDuration: const Duration(milliseconds: 300),
-              ),
+              bottomNavigationBar: const BottomNavBar(),
               body: Container(
                 color: Colors.black87,
                 width: double.infinity,
@@ -126,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget widget;
     switch (index) {
       case 0:
-        widget = ProfileApp();
+        widget = ProfilePage();
         break;
       case 1:
       // Replace this with the widget for Chat

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../utils/colors.dart';
+import '../constants/strings.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

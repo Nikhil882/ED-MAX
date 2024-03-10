@@ -1,4 +1,5 @@
 import 'package:edmax/screens/homeScreen.dart';
+import 'package:edmax/screens/profile.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: "/login", page: ()=>const Login()),
         GetPage(name: "/", page: ()=> const HomeScreen()),
+        GetPage(name: "/profile", page: ()=> ProfilePage()),
       ],
       debugShowCheckedModeBanner: false,
       title: 'edmax',
@@ -42,6 +44,11 @@ class MyApp extends StatelessWidget {
           backgroundColor: backgroundColor,
         ),
         scaffoldBackgroundColor: backgroundColor,
+        // primaryTextTheme: Typography().white,
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ),
       ),
     );
   }
