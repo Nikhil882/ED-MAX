@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../utils/colors.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -33,12 +34,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.black,
         child: Column(
           children: [
             // Carousel in the first half
             Container(
-              color: Colors.black,
               height: 300,
               width: 500, // Adjust the height as needed
               child: Stack(

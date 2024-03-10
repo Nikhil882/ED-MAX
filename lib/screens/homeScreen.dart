@@ -1,9 +1,11 @@
-import 'package:edmax/screens/homepage.dart';
+import 'package:edmax/screens/carousel.dart';
+import 'package:edmax/screens/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Import carousel_slider
 import 'package:edmax/screens/profile.dart';
 import 'login.dart';
+import '../utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,11 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ED-MAX"),
+        title: const Text(
+            "ED-MAX",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
       ),
+      drawer: SideMenu(),
       body: Column(
         children: [
           // Carousel in the first half
@@ -86,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 height: 70,
                 color: Colors.white,
-                backgroundColor: Colors.black,
+                backgroundColor: backgroundColor,
                 animationDuration: const Duration(milliseconds: 300),
               ),
               body: Container(
@@ -96,15 +102,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.center,
                 child: getSelectedWidget(index: index),
               ),
-              drawer: Drawer(
-                child: ListView(
-                  children: const [
-                    DrawerHeader(
-                      child: Text("ED-MAX"),
-                    ),
-                  ],
-                ),
-              ),
+              // drawer: Drawer(
+              //   child: ListView(
+              //     children: [
+              //       const DrawerHeader(
+              //         child: Text("ED-MAX"),
+              //       ),
+              //       ListTile(
+              //         title: const Text("Profile"),
+              //         onTap: () {},
+              //       )
+              //     ],
+              //   ),
+              // ),
             ),
           ),
         ],

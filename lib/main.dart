@@ -1,10 +1,11 @@
 import 'package:edmax/screens/homeScreen.dart';
+import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
 
 import 'screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'utils/colors.dart';
 
 
 void main() async {
@@ -33,6 +34,15 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
       title: 'edmax',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          backgroundColor: backgroundColor,
+        ),
+        scaffoldBackgroundColor: backgroundColor,
+      ),
     );
   }
 }
