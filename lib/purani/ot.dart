@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:edmax/utils/utils.dart';
-import 'package:edmax/widgets/text_field_input.dart';
+import 'widgets/text_field_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class OTPScreen extends StatefulWidget {

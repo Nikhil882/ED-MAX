@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
-                child: getSelectedWidget(index: index),
+                child: getSelectedWidget(index: 0),
               ),
               // drawer: Drawer(
               //   child: ListView(

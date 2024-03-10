@@ -13,6 +13,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(

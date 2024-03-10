@@ -1,18 +1,19 @@
 import 'package:edmax/screens/bottom_nav.dart';
+import 'package:edmax/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(ProfileApp());
-}
-
-class ProfileApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ProfilePage(),
-    );
-  }
-}
+// void main() {
+//   runApp(ProfileApp());
+// }
+//
+// class ProfileApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: ProfilePage(),
+//     );
+//   }
+// }
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -20,21 +21,18 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(
-              radius: 80,
-              backgroundImage: AssetImage('assets/profile_image.jpg'),
+              radius: 60,
+              backgroundImage: AssetImage('assets/paws_logo.jpeg'),
             ),
             const SizedBox(height: 16.0),
             const Text(
-              'jAY',
+              'Jay Mhatre',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -42,15 +40,16 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'Software Developer',
+              'Third Year',
               style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.grey,
               ),
             ),
             const SizedBox(height: 16.0),
+            buildInfoCard('Roll No', '22US17683CM003'),
             buildInfoCard('Email', 'JAY@example.com'),
-            buildInfoCard('Phone', ''),
+            buildInfoCard('Phone', '123456789'),
             buildInfoCard('Location', 'City, Country'),
             const SizedBox(height: 16.0),
             ElevatedButton(
@@ -80,13 +79,14 @@ class ProfilePage extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
             Text(
               value,
               style: const TextStyle(
                 fontSize: 16.0,
-                color: Colors.grey,
+                color: backgroundColor,
               ),
             ),
           ],
