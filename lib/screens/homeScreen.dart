@@ -5,7 +5,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Import carousel_slider
 import 'package:edmax/screens/profile.dart';
 import 'package:get/get.dart';
-import 'bottom_nav.dart';
 import 'login.dart';
 import '../utils/colors.dart';
 import '../constants/strings.dart';
@@ -70,13 +69,25 @@ class _HomeScreenState extends State<HomeScreen> {
           // Bottom navigation and main content
           Expanded(
             child: Scaffold(
-              bottomNavigationBar: const BottomNavBar(),
+              bottomNavigationBar: CurvedNavigationBar(
+                items: items,
+                index: index,
+                onTap: (selectedIndex) {
+                  setState(() {
+                    index = selectedIndex;
+                  });
+                },
+                height: 70,
+                color: Colors.white,
+                backgroundColor: backgroundColor,
+                animationDuration: const Duration(milliseconds: 300),
+              ),
               body: Container(
                 color: Colors.black87,
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
-                child: getSelectedWidget(index: 0),
+                child: getSelectedWidget(index: index),
               ),
               // drawer: Drawer(
               //   child: ListView(
@@ -107,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
       // Replace this with the widget for Chat
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       case 2:
@@ -117,13 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
       case 3:
       // Replace this with the widget for Assignment
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       case 4:
       // Replace this with the widget for Test
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       default:

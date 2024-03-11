@@ -1,4 +1,3 @@
-import 'package:edmax/screens/bottom_nav.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:flutter/material.dart';
 
