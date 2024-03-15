@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Bottom navigation and main content
           Expanded(
             child: Scaffold(
+
               bottomNavigationBar: CurvedNavigationBar(
                 items: items,
                 index: index,
@@ -88,14 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 backgroundColor: Colors.black,
                 animationDuration: const Duration(milliseconds: 300),
+                buttonBackgroundColor: Colors.red,
+
               ),
               body: Container(
-                color: Colors.black87,
+                color: Colors.black,
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
                 child: getSelectedWidget(index: index),
-              ),
+             ),
               drawer: Drawer(
                 child: ListView(
                   children: const [
