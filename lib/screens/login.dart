@@ -1,7 +1,9 @@
 import 'package:edmax/screens/homeScreen.dart';
-import 'package:edmax/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+
+import '../purani/ot.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -35,16 +38,11 @@ class _LoginState extends State<Login> {
           children: [
             Expanded(
               // Added Expanded widget
-              child: Column(
+              child: Stack(
                 children: [
+                  // Image.asset('assets/Cloud.png'),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                    width: 200,
-                    height: 200,
-                    child: Image.asset("assets/logo.jpg"),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    margin: EdgeInsets.fromLTRB(50, 200, 50, 0),
                     height: 500,
                     width: 500,
                     decoration: BoxDecoration(
@@ -57,46 +55,37 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           SizedBox(height: 20),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: Text(
-                              'Login...',
-                              style: TextStyle(
-                                  fontFamily: 'Archive',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 36,
-                                  color: Colors.white,
-                                  shadows: [
-                                    Shadow(
-                                        // bottomLeft
-                                        offset: Offset(-1.5, -1.5),
-                                        color: Color(0xFF84ADC2)),
-                                    Shadow(
-                                        // bottomRight
-                                        offset: Offset(1.5, -1.5),
-                                        color: Color(0xFF84ADC2)),
-                                    Shadow(
-                                        // topRight
-                                        offset: Offset(1.5, 1.5),
-                                        color: Color(0xFF84ADC2)),
-                                    Shadow(
-                                        // topLeft
-                                        offset: Offset(-1.5, 1.5),
-                                        color: Color(0xFF84ADC2)),
-                                  ]),
-                            ),
+                          const Text(
+                            'Login...',
+                            style: TextStyle(
+                                fontFamily: 'Archive',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 36,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Color(0xFF84ADC2)),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Color(0xFF84ADC2)),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Color(0xFF84ADC2)),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Color(0xFF84ADC2)),
+                                ]),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.all(24.0),
-                            child: Text(
-                              'Fill email id and password to sign in to your account',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1,
-                                  color: Color.fromRGBO(231, 218, 218, 0.5)),
-                            ),
+                          const Text(
+                            'Fill in correct details',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromARGB(255, 98, 127, 141)),
                           ),
                           SizedBox(height: 20),
                           SizedBox(
@@ -105,7 +94,7 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 hintText: 'Email ID',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
-                                fillColor: backgroundColor,
+                                fillColor: Colors.white,
                                 filled: true,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
@@ -123,7 +112,7 @@ class _LoginState extends State<Login> {
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 hintStyle: TextStyle(color: Color(0xFF84ADC2)),
-                                fillColor: backgroundColor,
+                                fillColor: Colors.white,
                                 filled: true,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
@@ -150,29 +139,23 @@ class _LoginState extends State<Login> {
                               obscureText: !_isPasswordVisible,
                             ),
                           ),
-                          SizedBox(height: 50),
+                          SizedBox(height: 20),
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => const HomeScreen());
+                              Get.to(()=> const HomeScreen());
                             },
                             child: Container(
-                              alignment: Alignment.center,
+
                               width: 140,
                               height: 50,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
+                                borderRadius: BorderRadius.circular(
+                                    80),
                                 color: Colors.black,
                                 // Adjust the radius as needed
                                 image: DecorationImage(
                                   image: AssetImage('assets/button.png'),
                                   fit: BoxFit.cover, // or BoxFit.cover
-                                ),
-                              ),
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
