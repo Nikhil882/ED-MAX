@@ -1,43 +1,36 @@
-import 'package:edmax/screens/homepage.dart';
+import 'package:edmax/screens/carousel.dart';
+import 'package:edmax/screens/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Import carousel_slider
 import 'package:edmax/screens/profile.dart';
+import 'package:get/get.dart';
 import 'login.dart';
+import '../utils/colors.dart';
+import '../constants/strings.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final items = const [
-    Icon(Icons.people, size: 30),
-    Icon(Icons.chat, size: 30),
-    Icon(Icons.home, size: 30),
-    Icon(Icons.assignment, size: 30),
-    Icon(Icons.assignment_turned_in, size: 30),
-  ];
-  int index = 2; // Default index set to Home
-
-  // Add images for the carousel
-  final List<String> carouselImages = [
-    'assets/Cloud.png',
-    'assets/button.png',
-    'image3.jpg',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ED-MAX"),
+        title: const Text(
+            "ED-MAX",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
       ),
+      drawer: SideMenu(),
       body: Column(
         children: [
           // Carousel in the first half
@@ -76,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
           // Bottom navigation and main content
           Expanded(
             child: Scaffold(
-
               bottomNavigationBar: CurvedNavigationBar(
                 items: items,
                 index: index,
@@ -87,27 +79,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 height: 70,
                 color: Colors.white,
-                backgroundColor: Colors.black,
+                backgroundColor: backgroundColor,
                 animationDuration: const Duration(milliseconds: 300),
-                buttonBackgroundColor: Colors.red,
-
               ),
               body: Container(
-                color: Colors.black,
+                color: Colors.black87,
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
                 child: getSelectedWidget(index: index),
-             ),
-              drawer: Drawer(
-                child: ListView(
-                  children: const [
-                    DrawerHeader(
-                      child: Text("ED-MAX"),
-                    ),
-                  ],
-                ),
               ),
+              // drawer: Drawer(
+              //   child: ListView(
+              //     children: [
+              //       const DrawerHeader(
+              //         child: Text("ED-MAX"),
+              //       ),
+              //       ListTile(
+              //         title: const Text("Profile"),
+              //         onTap: () {},
+              //       )
+              //     ],
+              //   ),
+              // ),
             ),
           ),
         ],
@@ -119,12 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget widget;
     switch (index) {
       case 0:
-        widget = ProfileApp();
+        widget = ProfilePage();
         break;
       case 1:
       // Replace this with the widget for Chat
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       case 2:
@@ -134,13 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
       case 3:
       // Replace this with the widget for Assignment
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       case 4:
       // Replace this with the widget for Test
         widget = Container(
-          color: Colors.black,
+          color: backgroundColor,
         );
         break;
       default:

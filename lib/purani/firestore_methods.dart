@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edmax/resources/storage_methods.dart';
+import 'package:edmax/purani/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class FireStoreMethods {
