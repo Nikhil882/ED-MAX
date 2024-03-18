@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'login.dart';
 import '../utils/colors.dart';
 import '../constants/strings.dart';
+import 'notifications.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,10 +23,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-            "ED-MAX",
-          style: TextStyle(
-            color: Colors.white,
+        title: Padding(
+          padding: const EdgeInsets.fromLTRB(50.0, 0,0,0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                  "EDU VENTURE",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                // textAlign: TextAlign.center,
+              ),
+              IconButton(
+                icon: const Icon(Icons.notifications),
+                onPressed: () => Get.to(const Notifications()),
+              )
+            ],
           ),
         ),
         centerTitle: true,
