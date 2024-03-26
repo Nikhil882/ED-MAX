@@ -29,6 +29,7 @@ class _NotificationsState extends State<Notifications> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBar(
+              elevation: 5,
               title: Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                 child: Row(
@@ -50,16 +51,16 @@ class _NotificationsState extends State<Notifications> {
               ),
               centerTitle: true,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 0,0),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20.0, 10.0, 0,0),
+              child: Text(
                 "Notifications",
                 style: TextStyle(
                   fontSize: 30,
                 ),
               ),
             ),
-            Divider(indent: 15,endIndent: 15,),
+            const Divider(indent: 15,endIndent: 15,),
           ],
         ),
       ),
@@ -68,10 +69,12 @@ class _NotificationsState extends State<Notifications> {
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           return ListTile(
+            hoverColor: Colors.white,
+            minVerticalPadding: 15,
             textColor: Colors.white,
             iconColor: Colors.green,
-            leading: Icon(Icons.notifications),
-            title: Text(notifications[index]),
+            leading: const Icon(Icons.notifications),
+            title: Text(notifications[index],),
             onTap: () {
               // Handle notification tap
               showDialog(
@@ -79,14 +82,14 @@ class _NotificationsState extends State<Notifications> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     backgroundColor: backgroundColor,
-                    title: Text('Notification Details'),
+                    title: const Text('Notification Details'),
                     content: Text(notifications[index]),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Close'),
+                        child: const Text('Close'),
                       ),
                     ],
                   );
