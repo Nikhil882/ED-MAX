@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
               'Third Year',
               style: TextStyle(
                 fontSize: 16.0,
-                color: Colors.grey,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -52,10 +52,16 @@ class ProfilePage extends StatelessWidget {
             buildInfoCard('Location', 'City, Country'),
             const SizedBox(height: 16.0),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue.shade700,
+              ),
               onPressed: () {
                 // Handle button press, e.g., navigate to edit profile page
               },
-              child: const Text('Edit Profile'),
+              child: const Text('Edit Profile',
+              style: TextStyle(
+                color: Colors.white,
+              ),),
             ),
           ],
         ),
@@ -66,6 +72,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget buildInfoCard(String label, String value) {
     return Card(
+      color: backgroundColor2,
       elevation: 2.0,
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
@@ -75,17 +82,17 @@ class ProfilePage extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.blue.shade200,
               ),
             ),
             Text(
               value,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16.0,
-                color: backgroundColor,
+                color: Colors.blue.shade100,
               ),
             ),
           ],

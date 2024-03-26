@@ -9,6 +9,8 @@ import 'login.dart';
 import '../utils/colors.dart';
 import '../constants/strings.dart';
 import 'notifications.dart';
+import 'package:edmax/screens/Assignment.dart';
+import 'package:edmax/screens/attendance.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,18 +20,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.fromLTRB(50.0, 0,0,0),
+          padding: const EdgeInsets.fromLTRB(50.0, 0, 0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                  "EDU VENTURE",
+                "EDU VENTURE",
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -84,20 +85,28 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: Scaffold(
               bottomNavigationBar: CurvedNavigationBar(
-                items: items,
+                items: items.map((icon) {
+                  int iconIndex = items.indexOf(icon);
+                  return Icon(
+                    icon.icon,
+                    color: index == iconIndex ? Colors.white : Colors.black,
+                    size: 30,
+                  );
+                }).toList(),
                 index: index,
                 onTap: (selectedIndex) {
                   setState(() {
                     index = selectedIndex;
-                  });
+
+    });
                 },
                 height: 70,
-                color: Colors.white,
                 backgroundColor: backgroundColor,
                 animationDuration: const Duration(milliseconds: 300),
+                buttonBackgroundColor: Colors.blue,
               ),
               body: Container(
-                color: Colors.black87,
+                color: backgroundColor,
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
@@ -127,28 +136,27 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget widget;
     switch (index) {
       case 0:
-        widget = ProfilePage();
+        widget = const ProfilePage();
         break;
       case 1:
-      // Replace this with the widget for Chat
+        // Replace this with the widget for Chat
         widget = Container(
           color: backgroundColor,
         );
         break;
       case 2:
-      // Replace this with the widget for Home
+        // Replace this with the widget for Home
         widget = HomePage();
         break;
       case 3:
-      // Replace this with the widget for Assignment
+        // Replace this with the widget for Assignment
         widget = Container(
           color: backgroundColor,
         );
         break;
       case 4:
-      // Replace this with the widget for Test
-        widget = Container(
-          color: backgroundColor,
+        // Replace this with the widget for Test
+        widget = AttendanceScreen(
         );
         break;
       default:
