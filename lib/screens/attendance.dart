@@ -64,7 +64,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 ) ,
 
                 legendOptions: LegendOptions(
-                  showLegendsInRow: false,
+                  showLegendsInRow: true,
                   legendPosition: LegendPosition.bottom,
                 ),
                 chartValuesOptions: ChartValuesOptions(
