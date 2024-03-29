@@ -1,4 +1,5 @@
 import 'package:edmax/screens/carousel.dart';
+import 'package:edmax/screens/quiz.dart';
 import 'package:edmax/screens/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -10,7 +11,7 @@ import '../utils/colors.dart';
 import '../constants/strings.dart';
 import 'notifications.dart';
 import 'package:edmax/screens/Assignment.dart';
-import 'package:edmax/screens/attendance.dart';
+// import 'package:edmax/screens/attendance.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget widget;
     switch (index) {
       case 0:
-        widget = const ProfilePage();
+        widget = ProfilePage();
         break;
       case 1:
         // Replace this with the widget for Chat
@@ -149,15 +150,16 @@ class _HomeScreenState extends State<HomeScreen> {
         widget = HomePage();
         break;
       case 3:
+        widget = const Quiz();
         // Replace this with the widget for Assignment
-        widget = Container(
-          color: backgroundColor,
-        );
+        // widget = Container(
+        //   color: backgroundColor,
+        // );
         break;
       case 4:
         // Replace this with the widget for Test
-        widget = AttendanceScreen(
-        );
+        // widget = AttendanceScreen();
+      widget = Container();
         break;
       default:
         widget = Container();

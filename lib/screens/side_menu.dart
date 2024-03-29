@@ -24,34 +24,88 @@ class SideMenu extends StatelessWidget {
                   Text(
                     "Jay Mhatre",
                     style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ],
               ),
             ),
             ListTile(
               title: const Text(
-                "First",
+                "Student Details",
               ),
               titleTextStyle: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               onTap: () {},
             ),
             ListTile(
               title: const Text(
-                "Second",
+                "Parent Details",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               onTap: () {},
+            ),ListTile(
+              title: const Text(
+                "Project",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onTap: () {},
+            ),ListTile(
+              title: const Text(
+                "Notes",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onTap: () {},
+            ),ListTile(
+              title: const Text(
+                "Syllabus",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onTap: () {},
+            ),ListTile(
+              title: const Text(
+                "Result",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onTap: () {},
+            ),ListTile(
+              title: const Text(
+                "Book",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onTap: () {},
+            ),
+            SizedBox(
+              height: 120,
             ),
             ListTile(
                 title: const Text(
@@ -65,7 +119,18 @@ class SideMenu extends StatelessWidget {
                 onTap: () {
                   FirebaseAuth.instance.signOut();
                   Get.toNamed("/login");
-                }),
+                },
+              trailing: IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: "Settings",
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ),
+            // Icon(
+            //   Icons.settings,
+            //   color: Colors.white,
+            // ),
           ],
         ),
       ),

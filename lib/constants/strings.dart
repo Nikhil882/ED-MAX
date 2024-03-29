@@ -15,3 +15,9 @@ final List<String> carouselImages = [
   'assets/button.png',
   'image3.jpg',
 ];
+
+List<String> questions = [
+  "1. What is dnfksn?",
+  "2. What is msldfnls?",
+
+];

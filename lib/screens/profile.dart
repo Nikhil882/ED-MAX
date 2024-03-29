@@ -1,21 +1,10 @@
 import 'package:edmax/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-// void main() {
-//   runApp(ProfileApp());
-// }
-//
-// class ProfileApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: ProfilePage(),
-//     );
-//   }
-// }
-
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
