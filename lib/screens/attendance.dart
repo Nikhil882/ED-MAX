@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-
+import '../utils/colors.dart';
 
 class Attendance extends StatelessWidget {
   @override
@@ -35,9 +36,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Attendance'),
-      ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -51,10 +50,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             Center(
               child: PieChart(
                 dataMap: dataMap,
-                colorList: [Colors.green, Colors.red],
+                colorList: [Colors.greenAccent, Colors.red],
                 chartType: ChartType.ring,
                 chartRadius: MediaQuery.of(context).size.width / 3.5,
-                centerText: "${totalPercentage.toStringAsFixed(1)}%",
+               // centerText: "${totalPercentage.toStringAsFixed(1)}%",
+                centerWidget:Text(
+                  "70.0%",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ) ,
+
                 legendOptions: LegendOptions(
                   showLegendsInRow: false,
                   legendPosition: LegendPosition.bottom,
@@ -70,21 +78,27 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: subjects.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(subjects[index]),
-                  subtitle: LinearPercentIndicator(
-                    width: MediaQuery.of(context).size.width - 100,
-                    lineHeight: 20.0,
-                    percent: subjectAttendance[index] / 100,
-                    progressColor: Colors.green,
-                    center: Text('${subjectAttendance[index]}%'),
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                itemCount: subjects.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(subjects[index],
+                    style: TextStyle(
+                      color: Colors.white,
+
+
+                    )),
+                    subtitle: LinearPercentIndicator(
+                      width: MediaQuery.of(context).size.width - 100,
+                      lineHeight: 20.0,
+                      percent: subjectAttendance[index] / 100,
+                      progressColor: Colors.blue,
+                      center: Text('${subjectAttendance[index]}%'),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
