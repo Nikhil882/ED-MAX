@@ -1,6 +1,9 @@
+import 'package:edmax/screens/homeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:edmax/screens/profile.dart';
+import 'package:edmax/screens/homeScreen.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({super.key});
@@ -41,7 +44,8 @@ class SideMenu extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
               ),
-              onTap: () {},
+              onTap: () {
+              }
             ),
             ListTile(
               title: const Text(
@@ -53,7 +57,8 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {},
-            ),ListTile(
+            ),
+            ListTile(
               title: const Text(
                 "Project",
                 style: TextStyle(
@@ -63,7 +68,8 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {},
-            ),ListTile(
+            ),
+            ListTile(
               title: const Text(
                 "Notes",
                 style: TextStyle(
@@ -73,7 +79,8 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {},
-            ),ListTile(
+            ),
+            ListTile(
               title: const Text(
                 "Syllabus",
                 style: TextStyle(
@@ -83,7 +90,8 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {},
-            ),ListTile(
+            ),
+            ListTile(
               title: const Text(
                 "Result",
                 style: TextStyle(
@@ -93,7 +101,8 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {},
-            ),ListTile(
+            ),
+            ListTile(
               title: const Text(
                 "Book",
                 style: TextStyle(
@@ -108,18 +117,18 @@ class SideMenu extends StatelessWidget {
               height: 120,
             ),
             ListTile(
-                title: const Text(
-                  "Log out",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+              title: const Text(
+                "Log out",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
-                onTap: () {
-                  FirebaseAuth.instance.signOut();
-                  Get.toNamed("/login");
-                },
+              ),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Get.toNamed("/login");
+              },
               trailing: IconButton(
                 icon: const Icon(Icons.settings),
                 tooltip: "Settings",

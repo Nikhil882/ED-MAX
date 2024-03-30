@@ -4,7 +4,7 @@ import 'package:edmax/screens/homeScreen.dart';
 import 'package:edmax/utils/colors.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   _LoginState createState() => _LoginState();

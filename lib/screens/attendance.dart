@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../utils/colors.dart';
-
 
 class AttendanceScreen extends StatefulWidget {
   @override
@@ -18,27 +18,65 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   double totalPercentage = 70.0; // Calculate total percentage here
 
   List<String> subjects = ['Math', 'Science', 'English']; // Example subjects
-  List<double> subjectAttendance = [80.0, 60.0, 90.0]; // Example subject-wise attendance percentages
+  List<double> subjectAttendance = [
+    80.0,
+    60.0,
+    90.0
+  ]; // Example subject-wise attendance percentages
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    DateTime now = DateTime.now();
 
+    // Format the date using the 'dd MMMM yyyy' format
+    String formattedDate = DateFormat('dd MMMM yyyy').format(now);
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Date: ${DateTime.now().toString().substring(0, 10)}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurStyle: BlurStyle.inner,
+                    color: Colors.blue,
+                    blurRadius: 100.0,
+                    spreadRadius: 0.0,
+                    offset: const Offset(0.0, 3.0,),
+                  ),
+                ],
+                color: backgroundColor1.withOpacity(0.5),
+                // border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Text(
+                '$formattedDate',
+                style: TextStyle(fontSize:20 , fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
+              padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                    blurStyle: BlurStyle.inner,
+                    color: Colors.blue,
+                    blurRadius: 100.0,
+                    spreadRadius: 0.0,
+                    offset: const Offset(0.0, 5.0,),
+                  ),
+                ],
+
+                color: backgroundColor1.withOpacity(0.6),
+                // border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: Center(
                 child: PieChart(
@@ -46,22 +84,28 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   colorList: [Colors.greenAccent, Colors.red],
                   chartType: ChartType.ring,
                   chartRadius: MediaQuery.of(context).size.width / 3.5,
-                 // centerText: "${totalPercentage.toStringAsFixed(1)}%",
-                  centerWidget:Text(
+                  // centerText: "${totalPercentage.toStringAsFixed(1)}%",
+                  centerWidget: Text(
                     "70.0%",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                  ) ,
+                  ),
 
                   legendOptions: LegendOptions(
-                    showLegendsInRow: true,
-                    legendPosition: LegendPosition.bottom,
+                    showLegendsInRow: false,
+                    legendPosition: LegendPosition.right,
                   ),
                   chartValuesOptions: ChartValuesOptions(
-                    showChartValues: false,
+                    showChartValuesOutside: true,
+                    showChartValues: true,
+                    showChartValuesInPercentage: true,
+                    showChartValueBackground: true,
+                    chartValueBackgroundColor: Colors.white,
+                    chartValueStyle: TextStyle(
+                        color: backgroundColor, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -76,20 +120,46 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               child: ListView.builder(
                 itemCount: subjects.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(subjects[index],
-                    style: TextStyle(
-                      color: Colors.white,
-
-
-                    )),
-                    subtitle: LinearPercentIndicator(
-                      width: MediaQuery.of(context).size.width - 100,
-                      lineHeight: 20.0,
-                      percent: subjectAttendance[index] / 100,
-                      progressColor: Colors.blue,
-                      center: Text('${subjectAttendance[index]}%'),
+                  return Container(
+                      margin: EdgeInsets.symmetric(vertical: 8.0), // Add margin vertically
+                    child: ListTile(
+                      tileColor: backgroundColor1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      title: Text(
+                        subjects[index],
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      subtitle: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurStyle: BlurStyle.normal,
+                            color: Colors.lightBlueAccent.withOpacity(0.4),
+                        blurRadius: 30.0,
+                        spreadRadius: 0.0,
+                        offset: const Offset(0.0, 3.0,),
+                      ),
+                      ],
+                        ),
+                        child: LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width - 73,
+                          lineHeight: 20.0,
+                          percent: subjectAttendance[index] / 100,
+                          progressColor: Colors.lightBlueAccent,
+                          backgroundColor: Colors.white,
+                          center: Text('${subjectAttendance[index]}%',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          ),
+                        ),
+                      ),
                     ),
+
                   );
                 },
               ),
