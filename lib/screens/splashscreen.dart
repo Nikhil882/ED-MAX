@@ -1,42 +1,70 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'package:edmax/screens/login.dart';
 
+class IntroScreen extends StatefulWidget {
+  @override
+  _IntroScreenState createState() => _IntroScreenState();
+}
 
-class Splash extends StatelessWidget {
+class _IntroScreenState extends State<IntroScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Splash Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: Splash2(),
-      debugShowCheckedModeBanner: false,
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
     );
+
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+
+    // Start the animation after a delay
+    Timer(Duration(seconds: 1), () {
+      _animationController.forward();
+    });
+
+    // Navigate after the animation completes
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => Login(),
+          ),
+        );
+      }
+    });
   }
-}
-class Splash2 extends StatelessWidget {
+
   @override
-  Widget build(BuildContext context) {
-    return SplashScreen(
-      seconds: 6,
-      navigateAfterSeconds: new SecondScreen(),
-      title: new Text('Edu-Venture',textScaleFactor: 2,),
-      image: new Image.network('https://www.geeksforgeeks.org/wp-content/uploads/gfg_200X200.png'),
-      loadingText: Text("Loading"),
-      photoSize: 100.0,
-      loaderColor: Colors.blue,
-    );
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
-}
-class SecondScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:Text("GeeksForGeeks")),
+      backgroundColor: Colors.black,
       body: Center(
-          child:Text("Home page",textScaleFactor: 2,)
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Replace Image.asset with your image widget
+            FadeTransition(
+              opacity: _animation,
+              child: Image.asset(
+                'assets/logo.jpg', // Replace with your image file path
+                width: 200, // Adjust width as needed
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

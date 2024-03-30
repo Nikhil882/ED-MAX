@@ -2,21 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
 import '../utils/colors.dart';
 
-class Attendance extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Attendance App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: AttendanceScreen(),
-    );
-  }
-}
 
 class AttendanceScreen extends StatefulWidget {
   @override
@@ -47,28 +34,35 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            Center(
-              child: PieChart(
-                dataMap: dataMap,
-                colorList: [Colors.greenAccent, Colors.red],
-                chartType: ChartType.ring,
-                chartRadius: MediaQuery.of(context).size.width / 3.5,
-               // centerText: "${totalPercentage.toStringAsFixed(1)}%",
-                centerWidget:Text(
-                  "70.0%",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ) ,
+            Container(
+              padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Center(
+                child: PieChart(
+                  dataMap: dataMap,
+                  colorList: [Colors.greenAccent, Colors.red],
+                  chartType: ChartType.ring,
+                  chartRadius: MediaQuery.of(context).size.width / 3.5,
+                 // centerText: "${totalPercentage.toStringAsFixed(1)}%",
+                  centerWidget:Text(
+                    "70.0%",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ) ,
 
-                legendOptions: LegendOptions(
-                  showLegendsInRow: true,
-                  legendPosition: LegendPosition.bottom,
-                ),
-                chartValuesOptions: ChartValuesOptions(
-                  showChartValues: false,
+                  legendOptions: LegendOptions(
+                    showLegendsInRow: true,
+                    legendPosition: LegendPosition.bottom,
+                  ),
+                  chartValuesOptions: ChartValuesOptions(
+                    showChartValues: false,
+                  ),
                 ),
               ),
             ),

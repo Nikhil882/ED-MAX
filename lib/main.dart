@@ -1,5 +1,6 @@
 import 'package:edmax/screens/homeScreen.dart';
 import 'package:edmax/screens/profile.dart';
+import 'package:edmax/screens/splashscreen.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ import 'screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'utils/colors.dart';
+// import 'package:edmax/screens/splashscreen.dart';
 
 
 void main() async {
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: "/splashscreen",
       getPages: [
-        GetPage(name: "/splashscreen", page: ()=>const Splash()),
+        GetPage(name: "/splashscreen", page: ()=>IntroScreen()),
         GetPage(name: "/login", page: ()=>const Login()),
         GetPage(name: "/", page: ()=> const HomeScreen()),
         GetPage(name: "/profile", page: ()=> ProfilePage()),

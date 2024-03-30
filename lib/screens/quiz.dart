@@ -170,8 +170,8 @@ class _QuizState extends State<Quiz> {
         quizCategories: data,
         // primaryColor: Theme.of(context).primaryColor,
         primaryColor: Colors.white,
-        menuLogoPath: 'assets/images/logo.png',
-        buttonPath: 'assets/images/primary_button.png',
+        menuLogoPath: 'assets/logo.jpg',
+        buttonPath: 'assets/button.png',
         labelPath: 'assets/images/label.png',
         bgImagePath: 'assets/images/bg.png',
         gradient: LinearGradient(
