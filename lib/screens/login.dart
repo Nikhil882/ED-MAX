@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edmax/screens/homeScreen.dart';
 import 'package:edmax/utils/colors.dart';
+import 'package:edmax/providers/user_provider.dart';
+import 'package:edmax/resources/auth_methods.dart';
+import 'package:edmax/resources/firestore_methods.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  Login({super.key});
 
   @override
   _LoginState createState() => _LoginState();
@@ -13,7 +16,35 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
   bool _isPasswordVisible = false;
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text,name: 'jay');
+    if (res == 'success') {
+      Get.to(() => HomeScreen());
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      // showSnackBar(context, res);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +112,8 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 hintText: 'Email ID',
                                 hintStyle: TextStyle(color: Colors.blue.shade200),
@@ -98,6 +131,8 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             width: 250,
                             child: TextField(
+                              controller: _passwordController,
+                              keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
                                 hintText: 'Password',
                                 hintStyle: TextStyle(color: Colors.blue.shade200),
@@ -126,7 +161,7 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 50),
                           GestureDetector(
                             onTap: () {
-                              Get.to(() => const HomeScreen());
+                              loginUser();
                             },
                             child: Container(
                               width: 140,

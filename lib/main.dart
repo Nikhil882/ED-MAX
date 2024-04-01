@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/splashscreen",
       getPages: [
         GetPage(name: "/splashscreen", page: ()=>IntroScreen()),
-        GetPage(name: "/login", page: ()=>const Login()),
+        GetPage(name: "/login", page: ()=>Login()),
         GetPage(name: "/", page: ()=> const HomeScreen()),
         GetPage(name: "/profile", page: ()=> ProfilePage()),
       ],

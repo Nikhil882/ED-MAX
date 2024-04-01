@@ -1,10 +1,46 @@
 import 'package:edmax/utils/colors.dart';
+import 'package:edmax/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edmax/resources/auth_methods.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _controller = TextEditingController();
+  String name = '';
+  String? error; // To store any error message
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('students')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      final userData = userSnap.data();
+      if (userData != null) {
+        setState(() {
+          name = userData['name'] ?? ''; // Set email if available
+        });
+
+        // name = userSnap.data()?['email'];
+      }
+    } catch (e){
+      print('Error fetching data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +55,8 @@ class ProfilePage extends StatelessWidget {
               backgroundImage: AssetImage('assets/paws_logo.jpeg'),
             ),
             const SizedBox(height: 16.0),
-            const Text(
-              'Jay Mhatre',
+             Text(
+              name,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -40,18 +76,91 @@ class ProfilePage extends StatelessWidget {
             buildInfoCard('Phone', '123456789'),
             buildInfoCard('Location', 'City, Country'),
             const SizedBox(height: 16.0),
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue.shade700,
               ),
-              onPressed: () {
-                // Handle button press, e.g., navigate to edit profile page
+              onPressed: () async {
+                // Get current user's ID
+                final user = FirebaseAuth.instance.currentUser;
+                if (user == null) {
+                  // Handle case where no user is signed in (optional)
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please sign in to edit your profile'),
+                    ),
+                  );
+                  return;
+                }
+
+                final userId = user.uid;
+
+                // Get user input for name
+                final name = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    final TextEditingController _nameController = TextEditingController();
+                    return AlertDialog(
+                      title: const Text('Edit Your Name'),
+                      content: TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(labelText: 'Enter Name'),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context), // Close dialog
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Validate name (optional)
+                            if (_nameController.text.isNotEmpty) {
+                              Navigator.pop(context, _nameController.text); // Return name
+                            } else {
+                              // Show error message (optional)
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a name'),
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text('Save'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                if (name != null && name.isNotEmpty) {
+                  // Update name in Firestore for the current user
+                  final firestore = FirebaseFirestore.instance;
+                  final docRef = firestore.collection('students').doc(userId);
+                  await docRef.update({
+                    'name': name,
+                    // Add other relevant fields for the student document (optional)
+                  });
+
+                  // Show success message (optional)
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Name "$name" updated successfully!',
+                      style: TextStyle(color: Colors.black),),
+                    ),
+                  );
+                }
               },
               child: const Text('Edit Profile',
-              style: TextStyle(
-                color: Colors.white,
-              ),),
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
+
+
+                // Handle button press, e.g., navigate to edit profile page
+
           ],
         ),
       ),
