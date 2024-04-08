@@ -3,13 +3,13 @@ import 'package:edmax/models/user.dart';
 import 'package:edmax/resources/auth_methods.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  OurUser? _user;
   final AuthMethods _authMethods = AuthMethods();
 
-  User get getUser => _user!;
+  OurUser get getUser => _user!;
 
   Future<void> refreshUser() async {
-    User user = await _authMethods.getUserDetails();
+    OurUser user = await _authMethods.getUserDetails();
     _user = user;
     notifyListeners();
   }

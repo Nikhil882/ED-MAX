@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edmax/resources/auth_methods.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
         // name = userSnap.data()?['email'];
       }
-    } catch (e){
+    } catch (e) {
       print('Error fetching data: $e');
     }
   }
@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16.0),
              Text(
               name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),

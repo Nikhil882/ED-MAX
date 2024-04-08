@@ -3,79 +3,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:edmax/models/user.dart' as model;
 import 'package:edmax/resources/storage_methods.dart';
+import 'package:get/get.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // get user details
-  Future<model.User> getUserDetails() async {
+  Future<model.OurUser> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
     DocumentSnapshot documentSnapshot =
         await _firestore.collection('students').doc(currentUser.uid).get();
 
-    return model.User.fromSnap(documentSnapshot);
+    return model.OurUser.fromSnap(documentSnapshot);
   }
-
-
-  // Signing Up User
-
-//   Future<String> signUpUser({
-//     required String email,
-//     required String password,
-//     required String username,
-//     required String bio,
-//     required Uint8List file,
-//   }) async {
-//     String res = "Some error Occurred";
-//     try {
-//       if (email.isNotEmpty ||
-//           password.isNotEmpty ||
-//           username.isNotEmpty ||
-//           file != null) {
-//         // registering user in auth with email and password
-//         UserCredential cred = await _auth.signInWithEmailAndPassword(
-//           email: email,
-//           password: password,
-//         );
-//
-// //String photoUrl = await StorageMethods()
-//   //          .uploadImageToStorage('profilePics', file, true);
-//
-//         //  model.User _user = model.User(
-//         //  'username': username,
-//         //'uid': cred.user!.uid,
-//         //'photoUrl': photoUrl,
-//         //'email': email,
-//         //'bio': bio,
-//         //'followers': [],
-//         //'following': [],
-//         // );
-//
-//         // adding user in our database
-//         await _firestore.collection("users").doc(cred.user!.uid).set({
-//           'username': username,
-//           'uid': cred.user!.uid,
-//           'photoUrl': photoUrl,
-//           'email': email,
-//           'bio': bio,
-//         });
-//
-//         res = "success";
-//       } else {
-//         res = "Please enter all the fields";
-//       }
-//     } catch (err) {
-//       return err.toString();
-//     }
-//     return res;
-//   }
 
   Future<String> loginUser({
     required String email,
     required String password,
-    required String name,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -85,17 +31,21 @@ class AuthMethods {
           email: email,
           password: password,
         );
-        await _firestore.collection("students").doc(cred.user!.uid).set({
-          'uid': cred.user!.uid,
-          'email': email,
-          'name': name,
-        });
+        // await _firestore.collection("students").doc(cred.user!.uid).set({
+        //   'uid': cred.user!.uid,
+        //   'email': email,
+        // });
 
         res = "success";
       } else {
         res = "Please enter all the fields";
       }
-    } catch (err) {
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (err.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
       return err.toString();
     }
     return res;
@@ -103,5 +53,6 @@ class AuthMethods {
 
   Future<void> signOut() async {
     await _auth.signOut();
+    Get.offAndToNamed("/login");
   }
 }

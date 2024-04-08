@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edmax/models/user.dart';
+import 'package:edmax/screens/admin/adminScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edmax/screens/homeScreen.dart';
@@ -16,9 +20,28 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLoading = false;
   bool _isPasswordVisible = false;
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          backgroundColor: backgroundColor,
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -27,18 +50,64 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
   }
 
+  void route() {
+    User? user = _auth.currentUser;
+    var kk = FirebaseFirestore.instance
+        .collection('students')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        if (documentSnapshot.get('role') == "admin") {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  AdminHomeScreen(),
+            ),
+          );
+        } else if (documentSnapshot.get('role') == "parent"){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  HomeScreen(),
+            ),
+          );
+        } else if (documentSnapshot.get('role') == "teacher"){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  HomeScreen(),
+            ),
+          );
+        }
+      } else if (documentSnapshot.get('role') == "student"){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>  HomeScreen(),
+          ),
+        );
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+  }
+
   void loginUser() async {
     setState(() {
       _isLoading = true;
     });
-    String res = await AuthMethods().loginUser(
-        email: _emailController.text, password: _passwordController.text,name: 'jay');
+    String res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text,);
+    // Future<User> documentSnapshot = AuthMethods().getUserDetails();
+    // await _firestore.collection('students').doc(currentUser.uid).get();
     if (res == 'success') {
-      Get.to(() => HomeScreen());
+      route();
+      // Get.to(() => HomeScreen());
       setState(() {
         _isLoading = false;
       });
     } else {
+      _showErrorDialog("Invalid Email or Password");
       setState(() {
         _isLoading = false;
       });
@@ -70,13 +139,13 @@ class _LoginState extends State<Login> {
                     width: 500,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Color.fromARGB(100, 112, 134, 146),
+                      color: const Color.fromARGB(100, 112, 134, 146),
                     ),
                     child: Opacity(
                       opacity: 1.0,
                       child: Column(
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                            Text(
                             'Login...',
                             style: TextStyle(
@@ -108,7 +177,7 @@ class _LoginState extends State<Login> {
                             'Fill in correct details',
                             style: TextStyle(fontSize: 12, color: Colors.white),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: 250,
                             child: TextField(
@@ -127,7 +196,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: 250,
                             child: TextField(
