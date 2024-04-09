@@ -65,41 +65,37 @@ class _LoginState extends State<Login> {
               builder: (context) =>  AdminHomeScreen(),
             ),
           );
-        } else if (documentSnapshot.get('role') == "parent"){
+        } else if (documentSnapshot.get('role') == "parent" || documentSnapshot.get('role') == "teacher") {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) =>  HomeScreen(),
             ),
           );
-        } else if (documentSnapshot.get('role') == "teacher"){
+        } else if (documentSnapshot.get('role') == "student") {
+          print('1');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) =>  HomeScreen(),
             ),
           );
+        } else {
+          print('Invalid Role');
         }
-      } else if (documentSnapshot.get('role') == "student"){
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>  HomeScreen(),
-          ),
-        );
       } else {
         print('Document does not exist on the database');
       }
     });
   }
 
+
   void loginUser() async {
     setState(() {
       _isLoading = true;
     });
     String res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text,);
-    // Future<User> documentSnapshot = AuthMethods().getUserDetails();
-    // await _firestore.collection('students').doc(currentUser.uid).get();
+
     if (res == 'success') {
       route();
       // Get.to(() => HomeScreen());

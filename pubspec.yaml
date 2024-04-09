@@ -92,6 +92,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   toast: ^0.3.0
   easy_quiz_game: ^1.0.1
+  firebase_app_check: ^0.2.2+1
 
 dev_dependencies:
   flutter_test:

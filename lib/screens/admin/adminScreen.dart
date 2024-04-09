@@ -65,10 +65,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     }
   }
 
+  // void addteach() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     await _auth
+  //         .createUserWithEmailAndPassword(email: mail.text, password: pass.text)
+  //         .then((value) => {postDetailsToFirestore(mail.text, "teacher")})
+  //         .catchError((e) {});
+  //   }
+  // }
+
   postDetailsToFirestore(String email, String role) async {
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('students');
-    ref.doc(user!.uid).set({'email': mail.text, 'role': role});
+    ref.doc(user!.uid).set({'email': mail.text, 'role': role, 'uid':user.uid});
   }
 
   void addStudents(BuildContext context) {

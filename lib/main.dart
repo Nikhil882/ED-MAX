@@ -2,7 +2,7 @@ import 'package:edmax/screens/homeScreen.dart';
 import 'package:edmax/screens/profile.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
-
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +14,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
+
     options: const FirebaseOptions(apiKey:"AIzaSyB2pz69RS1oAjABrKRIOostdgiRodM3m4U",
         appId:"1:698941466618:android:b7cca72e4d57b8fb926643",
         messagingSenderId:"698941466618",
         projectId:"ed-max-f2a03"),
   );
+  await FirebaseAppCheck.instance.activate(androidProvider: AndroidProvider.debug);
 
   runApp(const MyApp());
 }
