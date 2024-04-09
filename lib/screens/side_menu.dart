@@ -1,4 +1,5 @@
 import 'package:edmax/screens/homeScreen.dart';
+import 'package:edmax/screens/pdf_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,7 +57,9 @@ class SideMenu extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/profile");
+              },
             ),
             ListTile(
               title: const Text(
@@ -78,7 +81,9 @@ class SideMenu extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              onTap: () {},
+              onTap: ()  {
+                Get.toNamed("/pdf_screen");
+              },
             ),
             ListTile(
               title: const Text(

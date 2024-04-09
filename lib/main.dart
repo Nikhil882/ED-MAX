@@ -1,6 +1,5 @@
 import 'package:edmax/screens/homeScreen.dart';
 import 'package:edmax/screens/profile.dart';
-import 'package:edmax/screens/splashscreen.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
 
@@ -30,9 +29,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: "/splashscreen",
+      initialRoute: "/login",
       getPages: [
-        GetPage(name: "/splashscreen", page: ()=>IntroScreen()),
         GetPage(name: "/login", page: ()=>Login()),
         GetPage(name: "/", page: ()=> const HomeScreen()),
         GetPage(name: "/profile", page: ()=> ProfilePage()),
