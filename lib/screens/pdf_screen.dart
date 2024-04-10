@@ -13,7 +13,7 @@ class PdfScreen extends StatefulWidget {
 class _PdfScreenState extends State<PdfScreen> {
   List<Map<String, dynamic>> pdfData = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instanceFor(bucket: "gs://ed-max-f2a03.appspot.com");
 
   Future<String?> uploadPdf(String fileName, File file) async {
     try {
@@ -128,7 +128,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: document != null ? PDFViewer(document: document) : Center(child: CircularProgressIndicator()),
+      body: document != null? PDFViewer(document: document) : Center(child: CircularProgressIndicator()),
     );
   }
 }
