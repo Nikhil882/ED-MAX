@@ -149,6 +149,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(color: Colors.black),),
                     ),
                   );
+                  setState(() {
+
+                  });
                 }
               },
               child: const Text('Edit Profile',

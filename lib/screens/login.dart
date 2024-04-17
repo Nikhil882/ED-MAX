@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edmax/models/user.dart';
 import 'package:edmax/screens/admin/adminScreen.dart';
+import 'package:edmax/screens/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,8 +10,10 @@ import 'package:edmax/providers/user_provider.dart';
 import 'package:edmax/resources/auth_methods.dart';
 import 'package:edmax/resources/firestore_methods.dart';
 
+bool isAdmin = false;
+
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   _LoginState createState() => _LoginState();
@@ -59,25 +61,27 @@ class _LoginState extends State<Login> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('role') == "admin") {
+          isAdmin = true;
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  AdminHomeScreen(),
+              builder: (context) => AdminHomeScreen(),
             ),
           );
-        } else if (documentSnapshot.get('role') == "parent" || documentSnapshot.get('role') == "teacher") {
+        } else if (documentSnapshot.get('role') == "parent" ||
+            documentSnapshot.get('role') == "teacher") {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  HomeScreen(),
+              builder: (context) => HomeScreen(),
             ),
           );
         } else if (documentSnapshot.get('role') == "student") {
-          print('1');
+          isAdmin = true;
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>  HomeScreen(),
+              builder: (context) => HomeScreen(),
             ),
           );
         } else {
@@ -89,25 +93,21 @@ class _LoginState extends State<Login> {
     });
   }
 
-
-  void loginUser() async {
-    setState(() {
-      _isLoading = true;
-    });
-    String res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text,);
-
-    if (res == 'success') {
+  Future<void> loginUser(String email, String password) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print(email + password);
       route();
-      // Get.to(() => HomeScreen());
-      setState(() {
-        _isLoading = false;
-      });
-    } else {
-      _showErrorDialog("Invalid Email or Password");
-      setState(() {
-        _isLoading = false;
-      });
-      // showSnackBar(context, res);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     }
   }
 
@@ -127,125 +127,138 @@ class _LoginState extends State<Login> {
                 width: 200,
                 alignment: Alignment.center,
               ),
-              Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                    height: 450,
-                    width: 500,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(100, 112, 134, 146),
-                    ),
-                    child: Opacity(
-                      opacity: 1.0,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                           Text(
-                            'Login...',
-                            style: TextStyle(
-                              fontFamily: 'Archive',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 36,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  offset: Offset(-1.5, -1.5),
-                                  color: backgroundColor,
-                                ),
-                                Shadow(
-                                  offset: Offset(1.5, -1.5),
-                                  color: backgroundColor,
-                                ),
-                                Shadow(
-                                  offset: Offset(1.5, 1.5),
-                                  color: backgroundColor,
-                                ),
-                                Shadow(
-                                  offset: Offset(-1.5, 1.5),
-                                  color: backgroundColor,
-                                ),
-                              ],
+              Container(
+                margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                height: 450,
+                width: 500,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(100, 112, 134, 146),
+                ),
+                child: Opacity(
+                  opacity: 1.0,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(
+                        'Login...',
+                        style: TextStyle(
+                          fontFamily: 'Archive',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 36,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(-1.5, -1.5),
+                              color: backgroundColor,
                             ),
-                          ),
-                          const Text(
-                            'Fill in correct details',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: 250,
-                            child: TextField(
-                              controller: _emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                hintText: 'Email ID',
-                                hintStyle: TextStyle(color: Colors.blue.shade200),
-                                fillColor: backgroundColor,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                prefixIcon: Icon(Icons.email, color: Colors.blue.shade200),
-                              ),
+                            Shadow(
+                              offset: Offset(1.5, -1.5),
+                              color: backgroundColor,
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: 250,
-                            child: TextField(
-                              controller: _passwordController,
-                              keyboardType: TextInputType.visiblePassword,
-                              decoration: InputDecoration(
-                                hintText: 'Password',
-                                hintStyle: TextStyle(color: Colors.blue.shade200),
-                                fillColor: backgroundColor,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                prefixIcon: Icon(Icons.vpn_key, color: Colors.blue.shade200),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                    color: Colors.blue.shade200,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isPasswordVisible = !_isPasswordVisible;
-                                    });
-                                  },
-                                ),
-                              ),
-                              obscureText: !_isPasswordVisible,
+                            Shadow(
+                              offset: Offset(1.5, 1.5),
+                              color: backgroundColor,
                             ),
-                          ),
-                          SizedBox(height: 50),
-                          GestureDetector(
-                            onTap: () {
-                              loginUser();
-                            },
-                            child: Container(
-                              width: 140,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/button.png'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            Shadow(
+                              offset: Offset(-1.5, 1.5),
+                              color: backgroundColor,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      const Text(
+                        'Fill in correct details',
+                        style: TextStyle(fontSize: 12, color: Colors.white),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: 250,
+                        child: TextField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'Email ID',
+                            hintStyle:
+                                TextStyle(color: Colors.blue.shade200),
+                            fillColor: backgroundColor,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.email,
+                                color: Colors.blue.shade200),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: 250,
+                        child: TextField(
+                          controller: _passwordController,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            hintStyle:
+                                TextStyle(color: Colors.blue.shade200),
+                            fillColor: backgroundColor,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: Icon(Icons.vpn_key,
+                                color: Colors.blue.shade200),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.blue.shade200,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: !_isPasswordVisible,
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          loginUser(_emailController.text,
+                              _passwordController.text);
+                        },
+                        child: Container(
+                          width: 140,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80),
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage('assets/button.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Visibility(
+                      //   maintainSize: true,
+                      //   maintainAnimation: true,
+                      //   maintainState: true,
+                      //   visible: _isLoading,
+                      //   child: const Loading(),
+                      // ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

@@ -98,8 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: (selectedIndex) {
                   setState(() {
                     index = selectedIndex;
-
-    });
+                  });
                 },
                 height: 70,
                 backgroundColor: backgroundColor,
@@ -152,14 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
       case 3:
         widget = const Quiz();
         // Replace this with the widget for Assignment
-         //widget = Container(
+        //widget = Container(
         //   color: backgroundColor,
 
         break;
       case 4:
         // Replace this with the widget for Test
         widget = AttendanceScreen();
-      //widget = Container();
+        //widget = Container();
         break;
       default:
         widget = Container();

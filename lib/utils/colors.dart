@@ -15,3 +15,8 @@ const backgroundColor = Color.fromRGBO(8, 22, 49, 1);
 const backgroundColor1 = Color.fromRGBO(13, 34, 77, 1.0);
 const backgroundColor2 = Color.fromRGBO(19, 45, 102, 1.0);
 
+//for quiz
+const Color correct = Color(0xFF32AB58);
+const Color incorrect = Color(0xFFAB3232);
+const Color neutral = Color(0xFFD1D1D1);
+

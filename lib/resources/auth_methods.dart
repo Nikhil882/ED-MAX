@@ -36,7 +36,7 @@ class AuthMethods {
         //   'email': email,
         // });
 
-        res = "success";
+        
       } else {
         res = "Please enter all the fields";
       }

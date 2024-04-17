@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edmax/screens/pdf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:edmax/resources/auth_methods.dart';
+import 'package:get/get.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   AdminHomeScreen({Key? key}) : super(key: key);
@@ -16,7 +18,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   final TextEditingController mail = TextEditingController();
   final TextEditingController pass = TextEditingController();
   final TextEditingController name = TextEditingController();
-
 
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
@@ -42,6 +43,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   ElevatedButton(
                     child: Text("Add Teacher"),
                     onPressed: () => null, // Placeholder onPressed handler
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Get.to(const PdfScreen()),
+                    child: Text("Pdf Screen"),
                   ),
                 ],
               ),
@@ -77,7 +82,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   postDetailsToFirestore(String email, String role) async {
     var user = _auth.currentUser;
     CollectionReference ref = FirebaseFirestore.instance.collection('students');
-    ref.doc(user!.uid).set({'email': mail.text, 'role': role, 'uid':user.uid});
+    ref.doc(user!.uid).set({'email': mail.text, 'role': role, 'uid': user.uid});
   }
 
   void addStudents(BuildContext context) {

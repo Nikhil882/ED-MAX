@@ -1,4 +1,5 @@
 import 'package:edmax/screens/homeScreen.dart';
+import 'package:edmax/screens/pdf_screen.dart';
 import 'package:edmax/screens/profile.dart';
 import 'package:edmax/utils/colors.dart';
 import 'package:get/get.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/login", page: ()=>Login()),
         GetPage(name: "/", page: ()=> const HomeScreen()),
         GetPage(name: "/profile", page: ()=> ProfilePage()),
+        GetPage(name: "/pdfscreen", page: () => PdfScreen()),
       ],
       debugShowCheckedModeBanner: false,
       title: 'edmax',
