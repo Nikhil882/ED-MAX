@@ -83,8 +83,7 @@ class SideMenu extends StatelessWidget {
                 ),
               ),
               onTap: ()  {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PdfScreen()));
-                // Get.toNamed("/pdf_screen");
+                Get.toNamed("/pdf_screen");
               },
             ),
             ListTile(
