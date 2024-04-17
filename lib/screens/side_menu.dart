@@ -46,7 +46,8 @@ class SideMenu extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
               onTap: () {
-              }
+                Get.toNamed("/profile");
+              },
             ),
             ListTile(
               title: const Text(
