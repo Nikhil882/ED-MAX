@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -6,23 +10,79 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../utils/colors.dart';
 
 class AttendanceScreen extends StatefulWidget {
+  const AttendanceScreen({super.key});
   @override
   _AttendanceScreenState createState() => _AttendanceScreenState();
 }
 
+Future<List<int>> fetchCurrentUserSubjects() async {
+  List<int> subjects = [0, 0]; // Default values
+
+  try {
+    // Get the current user from FirebaseAuth
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Access Firestore collection 'students' for the current user
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('students')
+          .doc(user.uid)
+          .get();
+
+      // Check if the document exists and has 'subject1' and 'subject2' fields
+      if (snapshot.exists) {
+        // Extract 'subject1' and 'subject2' fields and store them in variables
+        int subject1 = snapshot.get('subject1') ?? 0;
+        int subject2 = snapshot.get('subject2') ?? 0;
+
+        subjects = [subject1, subject2];
+      }
+    }
+  } catch (error) {
+    print('Error fetching subject data for current user: $error');
+  }
+  return subjects;
+}
+
 class _AttendanceScreenState extends State<AttendanceScreen> {
+  int subject1 = 0;
+  int subject2 = 0;
+  int total = 0;
+  double totalAttendance = 0;
+  List<double> subjectAttendance = [10, 10];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCurrentUserSubjects().then((subjects) {
+      setState(() {
+        subject1 = subjects[0];
+        subject2 = subjects[1];
+        updateSubjectAttendance();
+        totalAttendance = (subject1 + subject2) / 20;
+        dataMap = {
+          'Attended': totalAttendance * 100,
+          'Absent': (1 - totalAttendance) * 100,
+        };
+        total = subject1 + subject2;
+      });
+    });
+  }
+
+  void updateSubjectAttendance() {
+    subjectAttendance = [subject1.toDouble(), subject2.toDouble()];
+  }
+
   Map<String, double> dataMap = {
-    'Attended': 70.0,
+    'Attended': 10.0,
     'Absent': 30.0,
   };
-  double totalPercentage = 70.0; // Calculate total percentage here
+  // Calculate total percentage here
 
-  List<String> subjects = ['Math', 'Science', 'English']; // Example subjects
-  List<double> subjectAttendance = [
-    80.0,
-    60.0,
-    90.0
-  ]; // Example subject-wise attendance percentages
+  List<String> subjects = ['Subject1', 'Subject2'];
+  // Example subjects
+  // Example subject-wise attendance percentages
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +107,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     color: Colors.blue,
                     blurRadius: 100.0,
                     spreadRadius: 0.0,
-                    offset: const Offset(0.0, 3.0,),
+                    offset: const Offset(
+                      0.0,
+                      3.0,
+                    ),
                   ),
                 ],
                 color: backgroundColor1.withOpacity(0.5),
@@ -56,7 +119,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ),
               child: Text(
                 '$formattedDate',
-                style: TextStyle(fontSize:20 , fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: Colors.white,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -70,7 +142,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     color: Colors.blue,
                     blurRadius: 100.0,
                     spreadRadius: 0.0,
-                    offset: const Offset(0.0, 5.0,),
+                    offset: const Offset(
+                      0.0,
+                      5.0,
+                    ),
                   ),
                 ],
 
@@ -86,11 +161,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   chartRadius: MediaQuery.of(context).size.width / 3.5,
                   // centerText: "${totalPercentage.toStringAsFixed(1)}%",
                   centerWidget: Text(
-                    "70.0%",
+                    textAlign: TextAlign.center,
+                    "$total out of \n20",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      wordSpacing: 0.1,
+                      shadows: [
+                        Shadow(
+                          color: Colors.white,
+                          blurRadius: 5,
+                        ),
+                      ],
                     ),
                   ),
 
@@ -121,7 +204,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 itemCount: subjects.length,
                 itemBuilder: (context, index) {
                   return Container(
-                      margin: EdgeInsets.symmetric(vertical: 8.0), // Add margin vertically
+                    margin: EdgeInsets.symmetric(
+                        vertical: 8.0), // Add margin vertically
                     child: ListTile(
                       tileColor: backgroundColor1,
                       shape: RoundedRectangleBorder(
@@ -131,6 +215,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         subjects[index],
                         style: TextStyle(
                           color: Colors.white,
+
                         ),
                       ),
                       subtitle: Container(
@@ -138,28 +223,40 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           boxShadow: [
                             BoxShadow(
                               blurStyle: BlurStyle.normal,
-                            color: Colors.lightBlueAccent.withOpacity(0.4),
-                        blurRadius: 30.0,
-                        spreadRadius: 0.0,
-                        offset: const Offset(0.0, 3.0,),
-                      ),
-                      ],
+                              color: Colors.lightBlueAccent.withOpacity(0.4),
+                              blurRadius: 30.0,
+                              spreadRadius: 0.0,
+                              offset: const Offset(
+                                0.0,
+                                3.0,
+                              ),
+                            ),
+                          ],
                         ),
                         child: LinearPercentIndicator(
+                          animation: true,
+                          barRadius: Radius.circular(10),
                           width: MediaQuery.of(context).size.width - 73,
                           lineHeight: 20.0,
-                          percent: subjectAttendance[index] / 100,
-                          progressColor: Colors.lightBlueAccent,
-                          backgroundColor: Colors.white,
-                          center: Text('${subjectAttendance[index]}%',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          percent: subjectAttendance[index] / 10,
+                          progressColor: Colors.cyanAccent.shade400,
+                          backgroundColor: Colors.lightBlueAccent.shade700,
+                          center: Text(
+                            '${(subjectAttendance[index] * 10).toStringAsFixed(1)}%',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.white,
+                                  blurRadius: 5,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-
                   );
                 },
               ),

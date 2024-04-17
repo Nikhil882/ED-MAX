@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edmax/screens/carousel.dart';
 import 'package:edmax/screens/quiz.dart';
 import 'package:edmax/screens/side_menu.dart';
+import 'package:edmax/screens/teach/attendance.dart';
+import 'package:edmax/screens/teach/subjects.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Import carousel_slider
@@ -21,6 +25,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late User? currentUser;
+  late String userRole;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    currentUser = _auth.currentUser;
+    getUserRole();
+  }
+
+  void getUserRole() async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final DocumentSnapshot userSnapshot =
+    await _firestore.collection('students').doc(currentUser!.uid).get();
+    setState(() {
+      userRole = userSnapshot.get('role');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,9 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
         break;
       case 4:
-        // Replace this with the widget for Test
-        widget = AttendanceScreen();
-      //widget = Container();
+        if (userRole == 'teacher') {
+          widget =  Subjects(); // Widget for attendance for teachers
+        } else {
+          widget =  AttendanceScreen();
+        }
         break;
       default:
         widget = Container();
