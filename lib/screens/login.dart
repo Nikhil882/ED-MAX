@@ -11,6 +11,7 @@ import 'package:edmax/resources/auth_methods.dart';
 import 'package:edmax/resources/firestore_methods.dart';
 
 bool isAdmin = false;
+late Widget setHomeScreen;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -61,27 +62,38 @@ class _LoginState extends State<Login> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('role') == "admin") {
-          isAdmin = true;
+          setState(() {
+            isAdmin = true;
+            setHomeScreen = AdminHomeScreen();
+          });
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => AdminHomeScreen(),
+              builder: (context) => setHomeScreen,
             ),
           );
         } else if (documentSnapshot.get('role') == "parent" ||
             documentSnapshot.get('role') == "teacher") {
+          setState(() {
+            isAdmin = true;
+            setHomeScreen = HomeScreen();
+          });
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => setHomeScreen,
             ),
           );
         } else if (documentSnapshot.get('role') == "student") {
-          isAdmin = true;
+          setState(() {
+            isAdmin = false;
+            setHomeScreen = HomeScreen();
+          });
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => setHomeScreen,
             ),
           );
         } else {
@@ -179,16 +191,15 @@ class _LoginState extends State<Login> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'Email ID',
-                            hintStyle:
-                                TextStyle(color: Colors.blue.shade200),
+                            hintStyle: TextStyle(color: Colors.blue.shade200),
                             fillColor: backgroundColor,
                             filled: true,
                             border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            prefixIcon: Icon(Icons.email,
-                                color: Colors.blue.shade200),
+                            prefixIcon:
+                                Icon(Icons.email, color: Colors.blue.shade200),
                           ),
                         ),
                       ),
@@ -200,8 +211,7 @@ class _LoginState extends State<Login> {
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            hintStyle:
-                                TextStyle(color: Colors.blue.shade200),
+                            hintStyle: TextStyle(color: Colors.blue.shade200),
                             fillColor: backgroundColor,
                             filled: true,
                             border: OutlineInputBorder(
@@ -233,8 +243,8 @@ class _LoginState extends State<Login> {
                           setState(() {
                             _isLoading = true;
                           });
-                          loginUser(_emailController.text,
-                              _passwordController.text);
+                          loginUser(
+                              _emailController.text, _passwordController.text);
                         },
                         child: Container(
                           width: 140,

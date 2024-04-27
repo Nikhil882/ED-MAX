@@ -1,14 +1,21 @@
 import 'package:edmax/screens/homeScreen.dart';
+import 'package:edmax/screens/login.dart';
 import 'package:edmax/screens/pdf_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get/get.dart';
 import 'package:edmax/screens/profile.dart';
-import 'package:edmax/screens/homeScreen.dart';
 
-class SideMenu extends StatelessWidget {
-  SideMenu({super.key});
+class SideMenu extends StatefulWidget {
+  const SideMenu({super.key});
 
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -132,9 +139,9 @@ class SideMenu extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              onTap: () {
+              onTap: () async {
                 FirebaseAuth.instance.signOut();
-                Get.toNamed("/login");
+                Get.offUntil(GetPageRoute(page: () => HomeScreen()), (route) => (route as GetPageRoute).routeName == '/login')
               },
               trailing: IconButton(
                 icon: const Icon(Icons.settings),
